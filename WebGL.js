@@ -87,32 +87,23 @@ function InitBuffers()
 {
     // Trying to make gitlab logo
     var vertices = [
-        -1.0, 2.0, 1.5,
-        -1.5, 1.0, 1.5,
-        -0.5, 1.0, 1.5,
-        1.0, 2.0, 1.5,
-        1.5, 1.0, 1.5,
-        0.5, 1.0, 1.5,
-        -2.0, 0.0, 1.5,
-        2.0, 0.0, 1.5,
-        0.0, -1.5, 0.0,
+        -1.0, 2.0, 1.5, //0
+        -1.5, 1.0, 1.5, //1
+        -0.5, 1.0, 1.5, //2
+        1.0, 2.0, 1.5,  //3
+        1.5, 1.0, 1.5,  //4
+        0.5, 1.0, 1.5,  //5
+        -1.5, 0.0, 1.5, //6
+        1.5, 0.0, 1.5,  //7
+        0.0, -1.5, 0.0, //8
         ////////////
-        1.5, 2.0, -1.0,
-        1.5, 1.0, -1.5,
-        1.5, 1.0, -0.5,
-        1.5, 2.0, 1.0,
-        1.5, 1.0, 0.5,
-        1.5, 0.0, -2.0,
-        1.5, 0.0, 2.0,
-        ///////////
-        -1.0, 2.0, -1.5,
-        -1.5, 1.0, -1.5,
-        -0.5, 1.0, -1.5,
-        1.0, 2.0, -1.5,
-        1.5, 1.0, -1.5,
-        0.5, 1.0, -1.5,
-        -2.0, 0.0, -1.5,
-        2.0, 0.0, -1.5
+        1.5, 2.0, -1.0, //9
+        1.5, 1.0, -1.5, //10
+        1.5, 1.0, -0.5, //11
+        1.5, 2.0, 1.0,  //12
+        1.5, 1.0, 0.5,  //13
+        1.5, 0.0, -1.5, //14
+        1.5, 0.0, 1.5,  //15
     ];
 
     var indices = [
@@ -120,7 +111,12 @@ function InitBuffers()
         3, 4, 5,
         1, 6, 7,
         1, 4, 7,
-        6, 7, 8
+        6, 7, 8,
+        9, 10, 11,
+        12, 13, 4,
+        10, 14, 15,
+        14, 15, 8,
+        10, 4, 15
     ];
 
     var colors = [
@@ -150,7 +146,7 @@ function InitBuffers()
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
     TriangleVertexPositionBuffer.itemSize = 3;
-    TriangleVertexPositionBuffer.numItems = 25;
+    TriangleVertexPositionBuffer.numItems = 16;
 
     TriangleVertexColorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, TriangleVertexColorBuffer);
@@ -164,7 +160,7 @@ function InitBuffers()
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
     TriangleVertexIndexBuffer.itemSize = 1;
-    TriangleVertexIndexBuffer.numItems = 15;
+    TriangleVertexIndexBuffer.numItems = 30;
 }
 
 var mvMatrix = mat4.create();
