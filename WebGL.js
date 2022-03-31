@@ -81,30 +81,46 @@ function InitShaders()
 
 var TriangleVertexPositionBuffer;
 var TriangleVertexColorBuffer;
+var TriangleVertexIndexBuffer;
 
 function InitBuffers()
 {
     // Trying to make gitlab logo
     var vertices = [
-        -1.0, 2.0, 0.0,
-        -1.5, 1.0, 0.0,
-        -0.5, 1.0, 0.0,
-        ///////////////
-        1.0, 2.0, 0.0,
-        1.5, 1.0, 0.0,
-        0.5, 1.0, 0.0,
-        ///////////////
-        -2.0, 0.0, 0.0,
-        2.0, 0.0, 0.0,
-        -1.5, 1.0, 0.0,
-        ///////////////
-        2.0, 0.0, 0.0,
-        -1.5, 1.0, 0.0,
-        1.5, 1.0, 0.0,
-        ///////////////
-        2.0, 0.0, 0.0,
-        -2.0, 0.0, 0.0,
-        0.0, -1.5, 0.0
+        -1.0, 2.0, 1.5,
+        -1.5, 1.0, 1.5,
+        -0.5, 1.0, 1.5,
+        1.0, 2.0, 1.5,
+        1.5, 1.0, 1.5,
+        0.5, 1.0, 1.5,
+        -2.0, 0.0, 1.5,
+        2.0, 0.0, 1.5,
+        0.0, -1.5, 0.0,
+        ////////////
+        1.5, 2.0, -1.0,
+        1.5, 1.0, -1.5,
+        1.5, 1.0, -0.5,
+        1.5, 2.0, 1.0,
+        1.5, 1.0, 0.5,
+        1.5, 0.0, -2.0,
+        1.5, 0.0, 2.0,
+        ///////////
+        -1.0, 2.0, -1.5,
+        -1.5, 1.0, -1.5,
+        -0.5, 1.0, -1.5,
+        1.0, 2.0, -1.5,
+        1.5, 1.0, -1.5,
+        0.5, 1.0, -1.5,
+        -2.0, 0.0, -1.5,
+        2.0, 0.0, -1.5
+    ];
+
+    var indices = [
+        0, 1, 2,
+        3, 4, 5,
+        1, 6, 7,
+        1, 4, 7,
+        6, 7, 8
     ];
 
     var colors = [
@@ -134,7 +150,7 @@ function InitBuffers()
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
     TriangleVertexPositionBuffer.itemSize = 3;
-    TriangleVertexPositionBuffer.numItems = 15;
+    TriangleVertexPositionBuffer.numItems = 25;
 
     TriangleVertexColorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, TriangleVertexColorBuffer);
@@ -142,6 +158,13 @@ function InitBuffers()
 
     TriangleVertexColorBuffer.itemSize = 4;
     TriangleVertexColorBuffer.numItems = 15;
+
+    TriangleVertexIndexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TriangleVertexIndexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+
+    TriangleVertexIndexBuffer.itemSize = 1;
+    TriangleVertexIndexBuffer.numItems = 15;
 }
 
 var mvMatrix = mat4.create();
@@ -184,9 +207,10 @@ function DrawScene()
     gl.vertexAttribPointer(Program.vertexPositionAttribute, TriangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
     gl.bindBuffer(gl.ARRAY_BUFFER, TriangleVertexColorBuffer);
     gl.vertexAttribPointer(Program.vertexColorAttribute, TriangleVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TriangleVertexIndexBuffer);
 
     SetMatrixUniforms();
-    gl.drawArrays(gl.TRIANGLES, 0, TriangleVertexPositionBuffer.numItems);
+    gl.drawElements(gl.TRIANGLES, TriangleVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     // mvPopMatrix();
 }
 
